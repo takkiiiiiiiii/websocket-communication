@@ -8,8 +8,9 @@
     </head>
     <body>
         <ul id="messages"></ul>
-        Websocketを使ったチャットアプリケーション
+        チャットアプリケーション
         <form id="chatbox">
+            {{.UserData.name}}:<br/>
         <textarea></textarea>
         <input type="submit" value="送信" />
         </form>
@@ -26,8 +27,8 @@
                         alert("エラー: WebSocket接続が行われていない");
                         return false;
                     }
-                    socket.send(msgBox.val());
-                    msgBox.val("");
+                    socket.send(JSON.stringify({"Message": msgBox.val()}));  //Jsonオブジェクトを文字列に変換
+                    //msg.val();
                     return false;
                 });
                 if(!window["WebSocket"]) {
@@ -40,7 +41,13 @@
                         alert("接続終了");
                     }
                     socket.onmessage = function(e) {
-                        messages.append($("<li>").text(e.data));
+                        var msg = eval("("+e.data+")");  //Json文字列をJavaScriptのオブジェクトに変換 eval関数
+                        messages.append(
+                            $("<li>").append(
+                                $("<strong>").text(msg.Name + ": "),
+                                $("<span>").text(msg.Message)
+                            )
+                        );
                     }
                 }
             });
