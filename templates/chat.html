@@ -21,27 +21,24 @@
                 var socket = null;
                 var msgBox = $("#chatbox textarea");
                 var messages = $("#messages");
-                $("#chatbox").submit(function(){  //送信をクリックするとsubmit関数がsocket.sendによってメッセージがサーバーに送信される
+                $("#chatbox").submit(function(){  
                     if(!msgBox.val()) return false;
                     if(!socket) {
                         alert("エラー: WebSocket接続が行われていない");
                         return false;
                     }
-                    socket.send(JSON.stringify({"Message": msgBox.val()}));  //Jsonオブジェクトを文字列に変換
-                    //msg.val();
+                    socket.send(JSON.stringify({"Message": msgBox.val()}));  
                     return false;
                 });
                 if(!window["WebSocket"]) {
                     alert("エラー: WebSocketに対応していないブラウザ");
                 } else {
-                    //socket = new WebSocket("ws://localhost:8080/room"); 
-                    socket = new WebSocket("ws://{{.Host}}/room") //WebSocket接続開始 で囲まれた部分はアノテーション(注釈)を表す アノテーションをr.Host(rはExecuteに渡された引数)の値で置き換える
-                    //二つのハンドラoncliseとonmessage
+                    socket = new WebSocket("ws://{{.Host}}/room") 
                     socket.onclose = function() {
                         alert("接続終了");
                     }
                     socket.onmessage = function(e) {
-                        var msg = eval("("+e.data+")");  //Json文字列をJavaScriptのオブジェクトに変換 eval関数
+                        var msg = eval("("+e.data+")");  
                         messages.append(
                             $("<li>").append(
                                 $("<strong>").text(msg.Name + ": "),
