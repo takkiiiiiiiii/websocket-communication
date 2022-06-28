@@ -46,7 +46,7 @@ func main() {
 	gomniauth.SetSecurityKey("セキュリティーキー")
 	gomniauth.WithProviders(
 		facebook.New("クライアントID", "秘密の鍵", "http://localhost:8080/auth/callback/facebook"),
-		google.New("749056294155-ihl05dq8rps4r8u8gv75sb6jjoncdspi.apps.googleusercontent.com", "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", "http://localhost:8080/auth/callback/google"), //http://localhost:8080/auth/callback/googleにアクセスするとgoogleによるログイン処理の画面にリダイレクトされる
+		google.New("クライアントID", "http://localhost:8080/auth/callback/google"), //http://localhost:8080/auth/callback/googleにアクセスするとgoogleによるログイン処理の画面にリダイレクトされる
 		github.New("クライアントID", "秘密の鍵", "http://localhost:8080/auth/callback/github"),
 	)
 	r := newRoom()                                                          //チャットルーム作成用の関数 戻り値 *room
